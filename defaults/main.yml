@@ -65,8 +65,8 @@ var_sshd_max_sessions: '10'
 var_sshd_set_maxstartups: 10:30:60
 sshd_strong_kex: -diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
 # List of users allowed to authenticate via SSH (space separated in config).
-# Example: ['admin', 'deploy']
-sshd_allow_users: ['admin']
+# Empty list means no `AllowUsers` restriction and allows any valid SSH user.
+sshd_allow_users: []
 # Whether to allow password authentication for SSH. Set to true to ensure
 # `PasswordAuthentication yes` is present after hardening.
 sshd_password_authentication: true
@@ -264,9 +264,6 @@ DISA_STIG_RHEL_09_654255: true
 DISA_STIG_RHEL_09_654275: true
 DISA_STIG_RHEL_09_671025: true
 DISA_STIG_needed_rules: true
-account_disable_post_pw_expiration: true
-account_password_pam_faillock_password_auth: true
-account_password_pam_faillock_system_auth: true
 accounts_maximum_age_login_defs: true
 accounts_minimum_age_login_defs: true
 accounts_no_uid_except_zero: true
@@ -283,9 +280,13 @@ accounts_password_set_max_life_existing: true
 accounts_password_set_min_life_existing: true
 accounts_password_set_warn_age_existing: true
 accounts_password_warn_age_login_defs: true
-accounts_passwords_pam_faillock_deny: true
-accounts_passwords_pam_faillock_deny_root: true
-accounts_passwords_pam_faillock_unlock_time: true
+account_disable_post_pw_expiration: false
+account_password_pam_faillock_password_auth: false
+account_password_pam_faillock_system_auth: false
+
+accounts_passwords_pam_faillock_deny: false
+accounts_passwords_pam_faillock_deny_root: false
+accounts_passwords_pam_faillock_unlock_time: false
 accounts_root_path_dirs_no_write: true
 accounts_set_post_pw_existing: true
 accounts_tmout: true
