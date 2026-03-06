@@ -4,5 +4,5 @@
   become: true
   gather_facts: true
   roles:
-  - role: ansible-role-rhel9-cis-main
+  - role: "{{ playbook_dir }}"
 
