@@ -67,6 +67,8 @@ sshd_strong_kex: -diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-
 # List of users allowed to authenticate via SSH (space separated in config).
 # Empty list means no `AllowUsers` restriction and allows any valid SSH user.
 sshd_allow_users: []
+# Accounts to protect from automated modifications (never lock/expire/change shell)
+protected_accounts: ['root', 'admin']
 # Whether to allow password authentication for SSH. Set to true to ensure
 # `PasswordAuthentication yes` is present after hardening.
 sshd_password_authentication: true
@@ -266,7 +268,7 @@ DISA_STIG_RHEL_09_671025: true
 DISA_STIG_needed_rules: true
 accounts_maximum_age_login_defs: true
 accounts_minimum_age_login_defs: true
-accounts_no_uid_except_zero: true
+accounts_no_uid_except_zero: false
 accounts_password_pam_dictcheck: true
 accounts_password_pam_difok: true
 accounts_password_pam_enforce_root: true
@@ -276,7 +278,7 @@ accounts_password_pam_minclass: true
 accounts_password_pam_minlen: true
 accounts_password_pam_pwhistory_remember_password_auth: true
 accounts_password_pam_pwhistory_remember_system_auth: true
-accounts_password_set_max_life_existing: true
+accounts_password_set_max_life_existing: false
 accounts_password_set_min_life_existing: true
 accounts_password_set_warn_age_existing: true
 accounts_password_warn_age_login_defs: true
@@ -288,7 +290,7 @@ accounts_passwords_pam_faillock_deny: false
 accounts_passwords_pam_faillock_deny_root: false
 accounts_passwords_pam_faillock_unlock_time: false
 accounts_root_path_dirs_no_write: true
-accounts_set_post_pw_existing: true
+accounts_set_post_pw_existing: false
 accounts_tmout: true
 accounts_umask_etc_bashrc: true
 accounts_umask_etc_login_defs: true
@@ -532,7 +534,7 @@ mount_option_var_tmp_nodev: true
 mount_option_var_tmp_noexec: true
 mount_option_var_tmp_nosuid: true
 no_empty_passwords: true
-no_empty_passwords_etc_shadow: true
+no_empty_passwords_etc_shadow: false
 no_password_auth_for_systemaccounts: true
 no_reboot_needed: true
 no_rsh_trust_files: true
@@ -599,7 +601,9 @@ sshd_disable_empty_passwords: true
 sshd_disable_forwarding: true
 sshd_disable_gssapi_auth: true
 sshd_disable_rhosts: true
-sshd_disable_root_login: true
+# When false, the playbook will not set `PermitRootLogin no` and root
+# will be allowed to authenticate via SSH if the system SSH config permits it.
+sshd_disable_root_login: false
 sshd_do_not_permit_user_env: true
 sshd_enable_pam: true
 sshd_enable_warning_banner_net: true

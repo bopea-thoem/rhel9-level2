@@ -9709,7 +9709,7 @@
   ansible.builtin.user:
     user: '{{ item }}'
     password_expire_max: '{{ var_accounts_maximum_age_login_defs }}'
-  with_items: '{{ user_names.stdout_lines }}'
+  with_items: '{{ user_names.stdout_lines | difference(protected_accounts) }}'
   when:
   - DISA_STIG_RHEL_09_411015 | bool
   - accounts_password_set_max_life_existing | bool
@@ -9769,7 +9769,7 @@
   ansible.builtin.command: 'chage -m {{ var_accounts_minimum_age_login_defs }} {{ item }}
 
     '
-  with_items: '{{ user_names.stdout_lines }}'
+  with_items: '{{ user_names.stdout_lines | difference(protected_accounts) }}'
   when:
   - DISA_STIG_RHEL_09_611080 | bool
   - accounts_password_set_min_life_existing | bool
@@ -9911,7 +9911,7 @@
 - name: Change the period of inactivity
   ansible.builtin.command:
     cmd: chage --inactive {{ var_account_disable_post_pw_expiration }} {{ item }}
-  with_items: '{{ user_names.stdout_lines }}'
+  with_items: '{{ user_names.stdout_lines | difference(protected_accounts) }}'
   when:
   - accounts_set_post_pw_existing | bool
   - low_complexity | bool
@@ -10109,7 +10109,7 @@
   ansible.builtin.command: 'passwd -l {{ item }}
 
     '
-  with_items: '{{ users_nopasswd.stdout_lines }}'
+  with_items: '{{ users_nopasswd.stdout_lines | difference(["root","admin"]) }}'
   when:
   - DISA_STIG_RHEL_09_611155 | bool
   - high_severity | bool
@@ -10167,7 +10167,7 @@
 
 - name: Lock the password of the user accounts other than root with uid 0
   ansible.builtin.command: passwd -l {{ item.key }}
-  loop: '{{ getent_passwd | dict2items | rejectattr(''key'', ''search'', ''root'') | list }}'
+  loop: '{{ getent_passwd | dict2items | rejectattr(''key'', ''in'', protected_accounts) | list }}'
   when:
   - DISA_STIG_RHEL_09_411100 | bool
   - accounts_no_uid_except_zero | bool
