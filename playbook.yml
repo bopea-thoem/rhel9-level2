@@ -1,0 +1,8 @@
+---
+- name: Apply RHEL9 CIS hardening role
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - role: ./ansible-role-rhel9-cis-main/ansible-role-rhel9-cis-main
+
