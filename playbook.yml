@@ -1,6 +1,6 @@
 ---
 - name: Apply RHEL9 CIS hardening role
-  hosts: all
+  hosts: servers
   become: true
   gather_facts: true
   roles:
