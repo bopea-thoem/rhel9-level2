@@ -3,6 +3,7 @@
   hosts: all
   become: true
   gather_facts: true
+  ignore_errors: true
   roles:
   - role: "{{ playbook_dir }}"
 
